@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:soundpool/soundpool.dart';
 import 'package:flutter/services.dart';
@@ -19,10 +20,20 @@ class ContadorModelSingleton extends Model{
   bool isVibrationOn = true;
   Soundpool pool = Soundpool(streamType: StreamType.notification);
   List<bool> leds = [false, false];
+  List<int> taps = List<int>(2);
+
+  int _tapInterval;
 
   void setBPM(double newValue){
     defaultBPM = newValue;
     notifyListeners();
+  }
+
+  void _setTapBPM(){
+    var _intervalo = 60000 ~/(taps[1] - taps[0]) ;
+    if(_intervalo <= maxBPM && _intervalo >= minBPM)
+      setBPM(_intervalo.toDouble());
+
   }
 
   void increaseBPM(){
@@ -42,6 +53,7 @@ class ContadorModelSingleton extends Model{
       double _speed = defaultBPM;
       double _ms = 60000;
       double _interval = _ms / _speed;
+      print("!!!! intervalo : $_interval");
       String _playSound = _soundHi;
 
       while(isPlaying){
@@ -97,6 +109,28 @@ class ContadorModelSingleton extends Model{
 
   void setVibration(bool vibration){
     isVibrationOn = vibration;
+    notifyListeners();
+  }
+
+  void _clearTap(){
+    taps[0] = null;
+    taps[1] = null;
+  }
+
+  void setTap(int tempo){
+    if(taps[1] != null)
+      _clearTap();
+
+    if(taps[0] == null)
+      taps[0] = tempo;
+    else if(taps[0] != null && taps[1] == null)
+      taps[1] = tempo;
+    else
+      _clearTap();
+
+    if(taps[0] != null && taps[1] != null)
+      _setTapBPM();
+
     notifyListeners();
   }
 }

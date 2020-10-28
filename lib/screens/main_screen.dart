@@ -50,136 +50,159 @@ class _MainScreenState extends State<MainScreen> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   //contador
-                  Card(
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.all(10),
-                          ),
-                          Text(
-                            model.defaultBPM.toStringAsFixed(0),
-                            style: TextStyle(
-                                fontSize: 40, fontWeight: FontWeight.bold, color: Colors.black54),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.all(5),
-                          ),
-                          Text(
-                            "BPM",
-                            style: TextStyle(
-                                color: Colors.grey, fontWeight: FontWeight.w500),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.all(10),
-                          ),
-                    ],
-                  )),
-                  //player
-                  Card(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        SliderTheme(
-                          data: SliderThemeData(
-                            activeTrackColor: Colors.greenAccent[200],
-                            inactiveTrackColor: Colors.greenAccent[100],
-                            thumbColor: Colors.greenAccent,
-                            overlayColor: Colors.greenAccent.withAlpha(32),
-                            overlayShape:
-                                RoundSliderOverlayShape(overlayRadius: 28.0),
-                          ),
-                          child: Slider(
-                            min: model.minBPM,
-                            max: model.maxBPM,
-                            value: model.defaultBPM,
-                            onChanged: (value) {
-                              setState(() {
-                                model.setBPM(value);
-                                if (model.isPlaying) model.play(0);
-                              });
-                            },
-                          ),
-                        ),
-                        Container(
-                          padding: EdgeInsets.all(10),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              RaisedButton(
-                                child: Text(
-                                  "-",
-                                  style: TextStyle(color: Colors.white),
-                                ),
-                                shape: CircleBorder(),
-                                color: Colors.greenAccent,
-                                onPressed: () {
-                                  setState(() {
-                                    model.decrementBPM();
-                                    if (model.isPlaying) model.play(0);
-                                  });
-                                },
-                              ),
-                              Padding(
-                                padding: EdgeInsets.all(5),
-                              ),
-                              Container(
-                                width: 100,
-                                child: RaisedButton.icon(
-                                  label: Text(
-                                    model.isPlaying ? "Pause" : "Play",
-                                    style: TextStyle(color: Colors.white),
-                                  ),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(30)
-                                  ),
-                                  icon: Icon(model.isPlaying? Icons.pause : Icons.play_arrow, color: Colors.white,),
-                                  color: Colors.greenAccent,
-                                  onPressed: () {
-                                    setState(() {
-                                      if (model.isPlaying) {
-                                        model.play(0);
-                                      } else {
-                                        model.play(1);
-                                      }
-                                    });
-                                  },
-                                ),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.all(5),
-                              ),
-                              RaisedButton(
-                                child: Text(
-                                  "+",
-                                  style: TextStyle(color: Colors.white),
-                                ),
-                                shape: CircleBorder(),
-                                color: Colors.greenAccent,
-                                onPressed: () {
-                                  setState(() {
-                                    model.increaseBPM();
-                                    if (model.isPlaying) model.play(0);
-                                  });
-                                },
-                              ),
-                            ],
-                          ),
-                        ),
+                  Expanded(
+                    flex: 1,
+                    child: Card(
+                        child: Column(
+                          children: [
+                            Text(
+                              model.defaultBPM.toStringAsFixed(0),
+                              style: TextStyle(
+                                  fontSize: 40, fontWeight: FontWeight.bold, color: Colors.black54),
+                            ),
+                            Text(
+                              "BPM",
+                              style: TextStyle(
+                                  color: Colors.grey, fontWeight: FontWeight.w500),
+                            ),
                       ],
+                    )),
+                  ),
+                  //player
+                  Expanded(
+                    flex: 1,
+                    child: Card(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          Expanded(
+                            flex: 1, 
+                            child: SliderTheme(
+                              data: SliderThemeData(
+                                activeTrackColor: Colors.greenAccent[200],
+                                inactiveTrackColor: Colors.greenAccent[100],
+                                thumbColor: Colors.greenAccent,
+                                overlayColor: Colors.greenAccent.withAlpha(32),
+                                overlayShape:
+                                    RoundSliderOverlayShape(overlayRadius: 28.0),
+                              ),
+                              child: Slider(
+                                min: model.minBPM,
+                                max: model.maxBPM,
+                                value: model.defaultBPM,
+                                onChanged: (value) {
+                                  setState(() {
+                                    model.setBPM(value);
+                                    if (model.isPlaying) model.play(0);
+                                  });
+                                },
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            flex: 1,
+                            child: Container(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Expanded(
+                                    flex: 1,
+                                    child: RaisedButton(
+                                      child: Text(
+                                        "-",
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                      shape: CircleBorder(),
+                                      color: Colors.greenAccent,
+                                      onPressed: () {
+                                        setState(() {
+                                          model.decrementBPM();
+                                          if (model.isPlaying) model.play(0);
+                                        });
+                                      },
+                                    ),
+                                  ),
+                                  Expanded(
+                                    flex: 2,
+                                    child: Container(
+                                      child: RaisedButton.icon(
+                                        label: Text(
+                                          model.isPlaying ? "Pause" : " Play ",
+                                          style: TextStyle(color: Colors.white),
+                                        ),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(30)
+                                        ),
+                                        icon: Icon(model.isPlaying? Icons.pause : Icons.play_arrow, color: Colors.white,),
+                                        color: Colors.greenAccent,
+                                        onPressed: () {
+                                          setState(() {
+                                            if (model.isPlaying) {
+                                              model.play(0);
+                                            } else {
+                                              model.play(1);
+                                            }
+                                          });
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    flex: 1,
+                                    child: RaisedButton(
+                                      child: Text(
+                                        "+",
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                      shape: CircleBorder(),
+                                      color: Colors.greenAccent,
+                                      onPressed: () {
+                                        setState(() {
+                                          model.increaseBPM();
+                                          if (model.isPlaying) model.play(0);
+                                        });
+                                      },
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                  Card(
-                      child: Padding(
-                          padding: EdgeInsets.all(10),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              buildLed("1", model.leds[0]),
-                              buildLed("2", model.leds[1]),
-                            ],
+                  //leds
+                  Expanded(
+                    flex: 1,
+                    child: Card(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                buildLed("1", model.leds[0]),
+                                buildLed("2", model.leds[1]),
+                              ],
+                            ),
                           ),
+                      ),
+                  //tap
+                  Expanded(
+                    flex: 2,
+                    child: Card(
+                      child: InkWell(
+                          child:  Center(child:
+                              Text("Tap here", style: TextStyle(
+                                fontWeight: FontWeight.w200,
+                                fontStyle: FontStyle.italic
+                              ),),
+                            ),
+                          onTap: (){
+                            if (model.isPlaying) model.play(0);
+                            model.setTap(DateTime.now().millisecondsSinceEpoch);
+                            print("!!!! taps ${model.taps}");
+                          },
                         ),
-                    ),
+                    ),),
                 ],
               );
             }
@@ -194,7 +217,6 @@ class _MainScreenState extends State<MainScreen> {
                           model.setVibration(false);
                       else
                         model.setVibration(true);
-
                     },
                   );
                 }),
